@@ -4,13 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <meta name="description" content="Find tech jobs and companies in the Bay Area.">
-        <meta name="keywords" content="Talent acquisition, job hunting, startups, San Francisco Bay Area, Silicon Valley">
-        <meta name="author" content="Connor Leech">
+
+        <title>{{ env('APP_TITLE', 'Laravel') }} - {{ env('APP_NAME', 'Website') }}</title>
+        <meta name="description" content="{{ env('APP_DESCRIPTION', 'Description') }}">
+        <meta name="keywords" content="{{ env('APP_KEYWORDS', 'Keywords') }}">
+        <meta name="author" content="{{ env('APP_AUTHOR', 'Keywords') }}">
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        
-        <title>{{ env('APP_NAME', 'Laravel') }}</title>
+        <script> window.Laravel = { csrfToken: 'csrf_token() ' } </script>
 
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">

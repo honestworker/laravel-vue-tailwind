@@ -146,14 +146,7 @@
       >
         <div class="w-full md:w-4/12 px-4 mx-auto text-center">
           <div class="text-sm text-gray-600 font-semibold py-1">
-            Copyright © {{ date }} Vue Notus by
-            <a
-              href="https://www.creative-tim.com?ref=vn-footer"
-              class="text-gray-600 hover:text-gray-900"
-            >
-              Creative Tim
-            </a>
-            .
+            Copyright © {{ date }}
           </div>
         </div>
       </div>

@@ -11,11 +11,12 @@
     </div>
   </div>
 </template>
+
 <script>
-import AdminNavbar from "../components/Navbars/AdminNavbar.vue";
-import Sidebar from "../components/Sidebar/Sidebar.vue";
-import HeaderStats from "../components/Headers/HeaderStats.vue";
-import FooterAdmin from "../components/Footers/FooterAdmin.vue";
+import AdminNavbar from "../../components/Navbars/AdminNavbar.vue";
+import Sidebar from "../../components/Sidebar/Sidebar.vue";
+import HeaderStats from "../../components/Headers/HeaderStats.vue";
+import FooterAdmin from "../../components/Footers/FooterAdmin.vue";
 export default {
   name: "admin-layout",
   components: {

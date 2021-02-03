@@ -6,13 +6,14 @@
 
 require('./bootstrap');
 
-// mouting point for the whole app
-import App from "./App.vue";
-
 window.Vue = require('vue').default;
 
 import VueRouter from 'vue-router';
-import routes from './routes';
+import router from './router';
+import store from './store';
+
+// mouting point for the whole app
+import App from "./App.vue";
 
 Vue.use(VueRouter);
 
@@ -34,6 +35,7 @@ Vue.use(VueRouter);
  */
 
 new Vue({
-  router: new VueRouter(routes),
+  store,
+  router,
   render: (h) => h(App),
 }).$mount("#app");
