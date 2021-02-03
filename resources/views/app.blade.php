@@ -8,23 +8,20 @@
         <meta name="keywords" content="Talent acquisition, job hunting, startups, San Francisco Bay Area, Silicon Valley">
         <meta name="author" content="Connor Leech">
 
-
-        <title>Employbl SPA</title>
-
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        
+        <title>{{ env('APP_NAME', 'Laravel') }}</title>
 
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
         <link rel="stylesheet" href="/css/app.css">
     </head>
     <body>
-
         <div id="app" class="leading-normal tracking-normal text-white gradient">
             <nav-bar-component></nav-bar-component>
-
             <router-view></router-view>
         </div>
 
         <script src="/js/app.js"></script>
     </body>
-
 </html>

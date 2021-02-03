@@ -6,11 +6,13 @@
 
 require('./bootstrap');
 
+// mouting point for the whole app
+import App from "./App.vue";
+
 window.Vue = require('vue').default;
 
 import VueRouter from 'vue-router';
 import routes from './routes';
-import NavBarComponent from './components/NavBarComponent.vue';
 
 Vue.use(VueRouter);
 
@@ -31,11 +33,7 @@ Vue.use(VueRouter);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-let app = new Vue({
-  el: '#app',
-  components: {
-    NavBarComponent
-  },
-
-  router: new VueRouter(routes)
-});
+new Vue({
+  router: new VueRouter(routes),
+  render: (h) => h(App),
+}).$mount("#app");
