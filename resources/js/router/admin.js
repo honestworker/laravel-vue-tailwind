@@ -1,4 +1,4 @@
-// layouts
+// layout
 import Admin from "../views/layouts/Admin.vue";
 
 // views for Admin layout
@@ -16,22 +16,22 @@ export default [
       {
         path: "/admin/dashboard",
         component: Dashboard,
-        meta: {requiresAuth: true},
+        meta: { requiresAuth: true, guardAdmin: true },
       },
       {
         path: "/admin/settings",
         component: Settings,
-        meta: {requiresAuth: true},
+        meta: { requiresAuth: true, guardAdmin: true },
       },
       {
         path: "/admin/tables",
         component: Tables,
-        meta: {requiresAuth: true},
+        meta: { requiresAuth: true, guardAdmin: true },
       },
       {
         path: "/admin/maps",
         component: Maps,
-        meta: {requiresAuth: true},
+        meta: { requiresAuth: true, guardAdmin: true },
       },
     ],
   }

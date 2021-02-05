@@ -140,14 +140,15 @@
         </div>
       </section>
     </main>
-    <footer-component />
+    <footer />
   </div>
 </template>
+
 <script>
 import Navbar from "../components/Navbars/AuthNavbar.vue";
-import FooterComponent from "../components/Footers/Footer.vue";
+import Footer from "../components/Footers/Footer.vue";
 
-import team2 from "../assets/img/team-2-800x800.jpg";
+import team2 from "../../assets/img/team-2-800x800.jpg";
 
 export default {
   data() {
@@ -157,7 +158,7 @@ export default {
   },
   components: {
     Navbar,
-    FooterComponent,
+    Footer,
   },
 };
 </script>

@@ -9,8 +9,9 @@
     </div>
   </div>
 </template>
+
 <script>
-import MapExample from "../../components/Maps/MapExample.vue";
+import MapExample from "../components/Maps/MapExample.vue";
 
 export default {
   components: {

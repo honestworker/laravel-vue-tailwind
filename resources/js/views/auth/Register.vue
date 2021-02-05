@@ -1,101 +1,80 @@
 <template>
   <div class="container mx-auto px-4 h-full">
     <div class="flex content-center items-center justify-center h-full">
-      <div class="w-full lg:w-6/12 px-4">
+      <div class="w-full lg:w-4/12 px-4">
         <div
-          class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300 border-0"
+          class="relative flex flex-col min-w-0 break-words w-full py-4 mb-4 shadow-lg rounded-lg bg-gray-300 border-0"
         >
-          <div class="rounded-t mb-0 px-6 py-6">
-            <div class="text-center mb-3">
-              <h6 class="text-gray-600 text-sm font-bold">
-                Sign up with
-              </h6>
-            </div>
-            <div class="btn-wrapper text-center">
-              <button
-                class="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                type="button"
-              >
-                <img alt="..." class="w-5 mr-1" :src="github" />
-                Github
-              </button>
-              <button
-                class="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                type="button"
-              >
-                <img alt="..." class="w-5 mr-1" :src="google" />
-                Google
-              </button>
-            </div>
-            <hr class="mt-6 border-b-1 border-gray-400" />
-          </div>
-          <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-            <div class="text-gray-500 text-center mb-3 font-bold">
-              <small>Or sign up with credentials</small>
-            </div>
-            <form>
+          <div class="flex-auto px-4 lg:px-10 py-6">
+            <form
+              @submit.prevent="submit"
+            >
               <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-gray-700 text-xs font-bold mb-2"
-                  htmlFor="grid-password"
-                >
-                  Name
-                </label>
                 <input
-                  type="email"
-                  class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                  placeholder="Name"
+                  type="name"
+                  class="px-3 py-3 placeholder-gray-400 text-gray-800 bg-white rounded-3xl text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
+                  placeholder="Name*"
+                  v-model.trim="$v.name.$model"
                 />
+                <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&!$v.name.required">Name is required</div>
+                <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&$v.name.required&&!$v.name.minLength">Name must have at least {{$v.name.$params.minLength.min}} letters.</div>
               </div>
 
               <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-gray-700 text-xs font-bold mb-2"
-                  htmlFor="grid-password"
-                >
-                  Email
-                </label>
                 <input
                   type="email"
-                  class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                  placeholder="Email"
+                  class="px-3 py-3 placeholder-gray-400 text-gray-800 bg-white rounded-3xl text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
+                  placeholder="Email*"
+                  v-model.trim="$v.email.$model"
                 />
+                <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&!$v.email.required">Email is required</div>
+                <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&$v.email.required&&!$v.email.email">Email is incorrect format</div>
               </div>
 
               <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-gray-700 text-xs font-bold mb-2"
-                  htmlFor="grid-password"
-                >
-                  Password
-                </label>
                 <input
                   type="password"
-                  class="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
-                  placeholder="Password"
+                  class="px-3 py-3 placeholder-gray-400 text-gray-800 bg-white rounded-3xl text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
+                  placeholder="Password*"
+                  v-model.trim="$v.password.$model"
                 />
+                <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&!$v.password.required">Password is required</div>
+                <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&$v.password.required&&!$v.password.minLength">Password must have at least {{$v.password.$params.minLength.min}} letters.</div>
+              </div>
+
+              <div class="relative w-full mb-3">
+                <input
+                  type="password"
+                  class="px-3 py-3 placeholder-gray-400 text-gray-800 bg-white rounded-3xl text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
+                  placeholder="Confirm Password*"
+                  v-model.trim="$v.confirm_password.$model"
+                />
+                <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&!$v.confirm_password.required">Confirm Password is required</div>
+                <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&$v.confirm_password.required&&!$v.confirm_password.sameAsPassword">Confirm Password does not match Password</div>
               </div>
 
               <div>
                 <label class="inline-flex items-center cursor-pointer">
                   <input
-                    id="customCheckLogin"
                     type="checkbox"
                     class="form-checkbox text-gray-800 ml-1 w-5 h-5 ease-linear transition-all duration-150"
+                    v-model.trim="agree_policy"
                   />
-                  <span class="ml-2 text-sm font-semibold text-gray-700">
+                  <span class="ml-2 text-sm text-gray-800">
                     I agree with the
-                    <a href="javascript:void(0)" class="text-green-500">
-                      Privacy Policy
-                    </a>
+                    <router-link to="/privacy-policy" class="hover:no-underline text-green-400 focus:text-red-500 active:text-red-500 hover:text-red-500 inline-block text-sm">
+                      <span class="inline-block">Privacy Policy</span>
+                    </router-link>
                   </span>
                 </label>
+                <div class="text-red-500 text-xs pt-1 pl-1" v-if="submit_status&&!agree_policy">Please agree</div>
               </div>
 
-              <div class="text-center mt-6">
+              <div class="text-center mt-4">
                 <button
-                  class="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                  type="button"
+                  class="bg-red-500 border-red-500 text-white active:bg-green-400 active:border-green-400 hover:bg-green-400 hover:border-green-400 focus:bg-green-400 focus:border-green-400 text-sm px-6 py-3 rounded-3xl shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                  type="submit"
+                  :disabled="submit_status === 'PENDING'"
                 >
                   Create Account
                 </button>
@@ -107,16 +86,67 @@
     </div>
   </div>
 </template>
+
 <script>
-import github from "../../assets/img/github.svg";
-import google from "../../assets/img/google.svg";
+import { mapActions } from "vuex";
+import { required, sameAs, minLength, email } from 'vuelidate/lib/validators';
 
 export default {
   data() {
     return {
-      github,
-      google,
+      name: '',
+      email: '',
+      password: '',
+      confirm_password: '',
+      agree_policy: false,
+      submit_status: null,
     };
   },
+  validations: {
+    name: {
+      required,
+      minLength: minLength(4)
+    },
+    email: {
+      required,
+      email
+    },
+    password: {
+      required,
+      minLength: minLength(6)
+    },
+    confirm_password: {
+      required,
+      sameAsPassword: sameAs('password')
+    },
+  },
+  methods: {
+    ...mapActions(["register"]),
+    async submit() {
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        this.submit_status = 'ERROR'
+      } else {
+        this.submit_status = 'PENDING'
+        
+        try {
+          let name = this.name
+          let email = this.email
+          let password = this.password
+          let confirm_password = this.confirm_password
+          let UserForm = new FormData()
+          UserForm.append('name', name)
+          UserForm.append('email', email)
+          UserForm.append('password', password)
+          UserForm.append('confirm_password', confirm_password)
+          await this.register(UserForm)
+          
+          this.$router.push('/login')
+        } catch (error) {
+          
+        }
+      }
+    }
+  }
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <a
-      class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+      class="hover:text-gray-600 text-gray-800 px-3 py-2 flex items-center text-xs uppercase font-bold"
       href="#pablo"
       ref="btnDropdownRef"
       v-on:click="toggleDropdown($event)"
@@ -52,13 +52,13 @@
         Auth Layout
       </span>
       <router-link
-        to="/auth/login"
+        to="/login"
         class="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-gray-800"
       >
         Login
       </router-link>
       <router-link
-        to="/auth/register"
+        to="/register"
         class="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-gray-800"
       >
         Register

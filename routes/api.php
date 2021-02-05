@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\Api\RegisterController;
+use App\Http\Controllers\Api\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +15,9 @@ use App\Http\Controllers\Api\RegisterController;
 |
 */
 
-Route::post('register', [RegisterController::class, 'register']);
-Route::post('login', [RegisterController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:api')->group( function () {
-    Route::resource('products', ProductController::class);
+    Route::post('/logout', [AuthController::class, 'logout']);
 });

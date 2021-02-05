@@ -1,6 +1,6 @@
 <template>
   <div>
-    <sidebar />
+    <admin-sidebar />
     <div class="relative md:ml-64 bg-gray-200">
       <admin-navbar />
       <header-stats />
@@ -13,15 +13,15 @@
 </template>
 
 <script>
-import AdminNavbar from "../../components/Navbars/AdminNavbar.vue";
-import Sidebar from "../../components/Sidebar/Sidebar.vue";
-import HeaderStats from "../../components/Headers/HeaderStats.vue";
-import FooterAdmin from "../../components/Footers/FooterAdmin.vue";
+import AdminNavbar from "../components/Navbars/AdminNavbar.vue";
+import AdminSidebar from "../components/Sidebar/AdminSidebar.vue";
+import HeaderStats from "../components/Headers/HeaderStats.vue";
+import FooterAdmin from "../components/Footers/FooterAdmin.vue";
 export default {
   name: "admin-layout",
   components: {
     AdminNavbar,
-    Sidebar,
+    AdminSidebar,
     HeaderStats,
     FooterAdmin,
   },

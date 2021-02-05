@@ -8,14 +8,33 @@ require('./bootstrap');
 
 window.Vue = require('vue').default;
 
+import App from "./App.vue";
 import VueRouter from 'vue-router';
+import Vuelidate from 'vuelidate'
 import router from './router';
 import store from './store';
+import axios from 'axios';
 
 // mouting point for the whole app
-import App from "./App.vue";
 
 Vue.use(VueRouter);
+Vue.use(Vuelidate);
+
+axios.defaults.withCredentials = true
+axios.defaults.baseURL = 'http://testing.enrol.co.uk/';
+
+Vue.config.productionTip = false
+
+axios.interceptors.response.use(undefined, function (error) {
+  if (error) {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {  
+      originalRequest._retry = true;
+      store.dispatch('logout')
+      return router.push('/login')
+    }
+  }
+})
 
 /**
  * The following block of code may be used to automatically register your

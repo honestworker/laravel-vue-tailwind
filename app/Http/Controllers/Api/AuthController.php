@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\API\BaseController as BaseController;
+use App\Http\Controllers\Api\BaseController as BaseController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
-class RegisterController extends BaseController
+class AuthController extends BaseController
 {
     /**
      * Register api
@@ -31,8 +31,12 @@ class RegisterController extends BaseController
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['token'] = $user->createToken(env(APP_NAME))->accessToken;
-        $success['name'] = $user->name;
+        $success['token'] = $user->createToken(env('APP_NAME', 'Laravel'))->accessToken;
+        $success['user'] = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+        ];
 
         return $this->sendResponse($success, 'User register successfully.');
     }
@@ -46,12 +50,31 @@ class RegisterController extends BaseController
     {
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
-            $success['token'] =  $user->createToken(env(APP_NAME))-> accessToken;
-            $success['name'] =  $user->name;
+            $success['token'] =  $user->createToken(env('APP_NAME', 'Laravel'))-> accessToken;
+            $success['user'] = [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+            ];
 
             return $this->sendResponse($success, 'User login successfully.');
         } else{
-            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+            return $this->sendError('Unauthenticated.', ['error' => 'Unauthenticated']);
+        }
+    }
+
+    /**
+     * Logout api
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function logout()
+    {
+        if (Auth::check()) {
+            Auth::user()->token()->revoke();
+            return $this->sendResponse(null, 'User logout successfully.');
+        } else {
+            return $this->sendError('Unauthenticated.', ['error' => 'Unauthenticated']);
         }
     }
 }

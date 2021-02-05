@@ -1,4 +1,4 @@
-// layouts
+// layout
 import Auth from "../views/layouts/Auth.vue";
 
 // views for Auth layout
@@ -13,11 +13,13 @@ export default [
     children: [
       {
         path: "/login",
+        name: "login",
         component: Login,
         meta: { guest: true },
       },
       {
         path: "/register",
+        name: "register",
         component: Register,
         meta: { guest: true },
       },
