@@ -82,16 +82,15 @@
               <a
                 :href="href"
                 @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
+                class="text-xs uppercase py-3 font-bold block hover:text-red-500"
                 :class="[
                   isActive
-                    ? 'text-green-500 hover:text-green-600'
-                    : 'text-gray-800 hover:text-gray-600',
+                    ? 'text-green-400'
+                    : 'text-gray-800',
                 ]"
               >
                 <i
                   class="fas fa-tv mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-gray-400']"
                 ></i>
                 Dashboard
               </a>
@@ -106,16 +105,15 @@
               <a
                 :href="href"
                 @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
+                class="text-xs uppercase py-3 font-bold block hover:text-red-500"
                 :class="[
                   isActive
-                    ? 'text-green-500 hover:text-green-600'
-                    : 'text-gray-800 hover:text-gray-600',
+                    ? 'text-green-400'
+                    : 'text-gray-800',
                 ]"
               >
                 <i
                   class="fas fa-tools mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-gray-400']"
                 ></i>
                 Settings
               </a>
@@ -130,16 +128,10 @@
           <li class="items-center">
             <a
               @click="handleLogout"
-              class="text-xs uppercase py-3 font-bold block cursor-pointer"
-              :class="[
-                isActive
-                  ? 'text-green-500 hover:text-green-600'
-                  : 'text-gray-800 hover:text-gray-600',
-              ]"
+              class="text-xs uppercase py-3 font-bold block text-gray-800 hover:text-red-500 cursor-pointer"
             >
               <i
                 class="fas fa-sign-out-alt mr-2 text-sm"
-                :class="[isActive ? 'opacity-75' : 'text-gray-400']"
               ></i>
               Logout
             </a>
@@ -152,7 +144,8 @@
 ); }
 
 <script>
-import { mapActions } from "vuex";
+import { mapState } from "vuex";
+import { LOGOUT } from "../../../store/actions.type";
 import NotificationDropdown from "../Dropdowns/NotificationDropdown.vue";
 import UserDropdown from "../Dropdowns/UserDropdown.vue";
 
@@ -166,18 +159,21 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["logout"]),
     toggleCollapseShow: function (classes) {
       this.collapseShow = classes;
     },
-    async handleLogout() {
-      try {
-        await this.logout()
-        this.$router.push('/login')
-      } catch (error) {
-        console.log('doLogout issue')
-      }
+    handleLogout() {
+      this.$store
+        .dispatch(LOGOUT)
+        .then(() => {
+          this.$router.push("/login");
+        });
     }
+  },
+  computed: {
+    ...mapState({
+      errors: state => state.auth.errors
+    })
   },
   components: {
     NotificationDropdown,

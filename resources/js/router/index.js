@@ -6,6 +6,8 @@ import AuthRouter from './auth'
 import AdminRouter from './admin'
 import FrontendRouter from './frontend'
 
+import { CHECK_AUTH } from "../store/actions.type";
+
 const router = new VueRouter({
   mode: 'history',
   routes: [
@@ -17,14 +19,16 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.getters.isLoggedIn) {
+    if (store.getters.isAuthenticated) {
       if (to.matched.some(record => record.meta.guardAdmin)) {
-        if (store.getters.authGuard == 'admin') {
-          next()
+        store.dispatch(CHECK_AUTH).then(() => {
+          if (store.getters.userRole == 'admin') {
+            next()
+            return
+          }
+          next('/')
           return
-        }
-        next('/')
-        return
+        });
       }
       next()
       return
@@ -35,13 +39,15 @@ router.beforeEach((to, from, next) => {
   }
 
   if (to.matched.some((record) => record.meta.guest)) {
-    if (store.getters.isLoggedIn) {
-      if (store.getters.authGuard == 'admin') {
-        next('/admin/dashboard');
+    if (store.getters.isAuthenticated) {
+      store.dispatch(CHECK_AUTH).then(() => {
+        if (store.getters.userRole == 'admin') {
+          next('/admin/dashboard');
+          return;
+        }
+        next('/dashboard');
         return;
-      }
-      next('/dashboard');
-      return;
+      });
     }
     next()
   } else {

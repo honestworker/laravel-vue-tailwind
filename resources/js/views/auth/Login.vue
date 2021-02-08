@@ -14,9 +14,11 @@
                   type="email"
                   class="px-3 py-3 placeholder-gray-400 text-gray-800 bg-white rounded-3xl text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                   placeholder="Email*"
+                  @keyup="changeEmail"
                   v-model.trim="$v.email.$model"
                 />
                 <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&!$v.email.required">Email is required</div>
+                <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&errors&&errors.email">{{ errors.email }}</div>
               </div>
 
               <div class="relative w-full mb-3">
@@ -24,16 +26,18 @@
                   type="password"
                   class="px-3 py-3 placeholder-gray-400 text-gray-800 bg-white rounded-3xl text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                   placeholder="Password*"
+                  @keyup="changePassword"
                   v-model.trim="$v.password.$model"
                 />
                 <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&!$v.password.required">Password is required</div>
+                <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&errors&&errors.password">{{ errors.password }}</div>
               </div>
 
               <div>
                 <label class="inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
-                    class="form-checkbox text-gray-800 ml-1 w-5 h-5 ease-linear transition-all duration-150"
+                    class="form-checkbox text-gray-800 ml-1 w-5 h-5 ease-linear transition-all duration-150 cursor-pointer"
                     v-model.trim="remember_me"
                   />
                   <span class="ml-2 text-sm text-gray-800">
@@ -66,7 +70,8 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState } from "vuex";
+import { LOGIN } from "../../store/actions.type";
 import { required, email } from 'vuelidate/lib/validators';
 
 export default {
@@ -91,28 +96,40 @@ export default {
     remember: {}
   },
   methods: {
-    ...mapActions(["login"]),
-    async submit() {
+    submit() {
       this.$v.$touch()
       if (this.$v.$invalid) {
         this.submit_status = 'ERROR'
       } else {
         this.submit_status = 'PENDING'
 
-        try {
-          let email = this.email
-          let password = this.password
-          let UserForm = new FormData()
-          UserForm.append('email', email)
-          UserForm.append('password', password)
-          await this.login(UserForm)
-          
-          this.$router.push('/admin/dashboard')
-        } catch (error) {
-          
+        let email = this.email
+        let password = this.password
+        this.$store
+          .dispatch(LOGIN, { email, password })
+          .then(() =>  this.$router.push("/admin/dashboard") )
+          .catch(() => this.submit_status = 'ERROR' );
+      }
+    },
+    changeEmail() {
+      if (this.errors) {
+        if (this.errors.email) {
+          this.errors.email = null
+        }
+      }
+    },
+    changePassword() {
+      if (this.errors) {
+        if (this.errors.password) {
+          this.errors.password = null
         }
       }
     }
+  },
+  computed: {
+    ...mapState({
+      errors: state => state.auth.errors
+    })
   }
 };
 </script>

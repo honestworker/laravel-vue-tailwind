@@ -7,34 +7,30 @@
 require('./bootstrap');
 
 window.Vue = require('vue').default;
+window.axios = require('axios');
 
 import App from "./App.vue";
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate'
-import router from './router';
 import store from './store';
-import axios from 'axios';
+import router from './router';
+
+import ApiService from "./common/api.service";
+import DateFilter from "./common/date.filter";
+import ErrorFilter from "./common/error.filter";
 
 // mouting point for the whole app
+window.axios.defaults.withCredentials = true
+window.axios.defaults.baseURL = 'http://localhost/';
+
+Vue.config.productionTip = false;
+Vue.filter("date", DateFilter);
+Vue.filter("error", ErrorFilter);
+
+ApiService.init();
 
 Vue.use(VueRouter);
 Vue.use(Vuelidate);
-
-axios.defaults.withCredentials = true
-axios.defaults.baseURL = 'http://testing.enrol.co.uk/';
-
-Vue.config.productionTip = false
-
-axios.interceptors.response.use(undefined, function (error) {
-  if (error) {
-    const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {  
-      originalRequest._retry = true;
-      store.dispatch('logout')
-      return router.push('/login')
-    }
-  }
-})
 
 /**
  * The following block of code may be used to automatically register your
@@ -53,7 +49,7 @@ axios.interceptors.response.use(undefined, function (error) {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-new Vue({
+new window.Vue({
   store,
   router,
   render: (h) => h(App),

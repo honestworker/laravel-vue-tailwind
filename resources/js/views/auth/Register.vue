@@ -14,10 +14,21 @@
                   type="name"
                   class="px-3 py-3 placeholder-gray-400 text-gray-800 bg-white rounded-3xl text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                   placeholder="Name*"
+                  @keyup="changeName"
                   v-model.trim="$v.name.$model"
                 />
                 <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&!$v.name.required">Name is required</div>
                 <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&$v.name.required&&!$v.name.minLength">Name must have at least {{$v.name.$params.minLength.min}} letters.</div>
+                <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&errors&&errors.name">
+                  <div v-if="Array.isArray(errors.name)">
+                    <div v-for="(error, index) in errors.name" :key="index">
+                      {{ error }}
+                    </div>
+                  </div>
+                  <div v-if="!Array.isArray(errors.name)">
+                    {{ errors.name }}
+                  </div>
+                </div>
               </div>
 
               <div class="relative w-full mb-3">
@@ -25,10 +36,21 @@
                   type="email"
                   class="px-3 py-3 placeholder-gray-400 text-gray-800 bg-white rounded-3xl text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                   placeholder="Email*"
+                  @keyup="changeEmail"
                   v-model.trim="$v.email.$model"
                 />
                 <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&!$v.email.required">Email is required</div>
                 <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&$v.email.required&&!$v.email.email">Email is incorrect format</div>
+                <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&errors&&errors.email">
+                  <div v-if="Array.isArray(errors.email)">
+                    <div v-for="(error, index) in errors.email" :key="index">
+                      {{ error }}
+                    </div>
+                  </div>
+                  <div v-if="!Array.isArray(errors.email)">
+                    {{ errors.email }}
+                  </div>
+                </div>
               </div>
 
               <div class="relative w-full mb-3">
@@ -36,10 +58,22 @@
                   type="password"
                   class="px-3 py-3 placeholder-gray-400 text-gray-800 bg-white rounded-3xl text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                   placeholder="Password*"
+                  @keyup="changePassword"
                   v-model.trim="$v.password.$model"
                 />
                 <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&!$v.password.required">Password is required</div>
                 <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&$v.password.required&&!$v.password.minLength">Password must have at least {{$v.password.$params.minLength.min}} letters.</div>
+                <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&errors&&errors.password">
+                <div v-if="Array.isArray(errors.password)">
+                  <div v-for="(error, index) in errors.password" :key="index">
+                    {{ error }}
+                  </div>
+                </div>
+                <div v-if="!Array.isArray(errors.password)">
+                  {{ errors.password }}
+                </div>
+              </div>
+                
               </div>
 
               <div class="relative w-full mb-3">
@@ -47,6 +81,7 @@
                   type="password"
                   class="px-3 py-3 placeholder-gray-400 text-gray-800 bg-white rounded-3xl text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                   placeholder="Confirm Password*"
+                  @keyup="changeConfirmPassword"
                   v-model.trim="$v.confirm_password.$model"
                 />
                 <div class="text-red-500 text-left text-xs pt-1 pl-1" v-if="submit_status&&!$v.confirm_password.required">Confirm Password is required</div>
@@ -57,7 +92,7 @@
                 <label class="inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
-                    class="form-checkbox text-gray-800 ml-1 w-5 h-5 ease-linear transition-all duration-150"
+                    class="form-checkbox text-gray-800 ml-1 w-5 h-5 ease-linear transition-all duration-150 cursor-pointer"
                     v-model.trim="agree_policy"
                   />
                   <span class="ml-2 text-sm text-gray-800">
@@ -88,7 +123,9 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState } from "vuex";
+import { REGISTER } from "../../store/actions.type";
+import { APP_URL } from "../../common/config";
 import { required, sameAs, minLength, email } from 'vuelidate/lib/validators';
 
 export default {
@@ -121,32 +158,57 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["register"]),
-    async submit() {
+    submit() {
       this.$v.$touch()
-      if (this.$v.$invalid) {
+      if (this.$v.$invalid || !this.agree_policy) {
         this.submit_status = 'ERROR'
       } else {
         this.submit_status = 'PENDING'
+
+        let name = this.name
+        let email = this.email
+        let password = this.password
+        let confirm_password = this.confirm_password
         
-        try {
-          let name = this.name
-          let email = this.email
-          let password = this.password
-          let confirm_password = this.confirm_password
-          let UserForm = new FormData()
-          UserForm.append('name', name)
-          UserForm.append('email', email)
-          UserForm.append('password', password)
-          UserForm.append('confirm_password', confirm_password)
-          await this.register(UserForm)
-          
-          this.$router.push('/login')
-        } catch (error) {
-          
+        this.$store
+          .dispatch(REGISTER, { name, email, password, confirm_password })
+          .then(() => { window.location.href = APP_URL + 'login' })
+          .catch(() => this.submit_status = 'ERROR' );
+      }
+    },
+    changeName() {
+      if (this.errors) {
+        if (this.errors.name) {
+          this.errors.name = null
+        }
+      }
+    },
+    changeEmail() {
+      if (this.errors) {
+        if (this.errors.email) {
+          this.errors.email = null
+        }
+      }
+    },
+    changePassword() {
+      if (this.errors) {
+        if (this.errors.password) {
+          this.errors.password = null
+        }
+      }
+    },
+    changeConfirmPassword() {
+      if (this.errors) {
+        if (this.errors.confirm_password) {
+          this.errors.confirm_password = null
         }
       }
     }
+  },
+  computed: {
+    ...mapState({
+      errors: state => state.auth.errors
+    })
   }
 };
 </script>
