@@ -58,16 +58,6 @@
             </div>
           </div>
         </div>
-        <!-- Form -->
-        <form class="mt-6 mb-4 md:hidden">
-          <div class="mb-3 pt-0">
-            <input
-              type="text"
-              placeholder="Search"
-              class="px-3 py-2 h-12 border border-solid border-gray-600 placeholder-gray-400 text-gray-700 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
-            />
-          </div>
-        </form>
 
         <!-- Divider -->
         <hr class="my-4 md:min-w-full" />
@@ -124,6 +114,104 @@
         <!-- Divider -->
         <hr class="my-4 md:min-w-full" />
         
+        <!-- Navigation -->
+        <ul class="md:flex-col md:min-w-full flex flex-col list-none">
+          <li class="items-center">
+            <router-link
+              to="/admin/super-admins"
+              v-slot="{ href, route, navigate, isActive }"
+            >
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-xs uppercase py-3 font-bold block hover:text-red-500"
+                :class="[
+                  isActive
+                    ? 'text-green-400'
+                    : 'text-gray-800',
+                ]"
+              >
+                <i
+                  class="fas fa-user-secret mr-2 text-sm"
+                ></i>
+                Super Admins
+              </a>
+            </router-link>
+          </li>
+
+          <li class="items-center">
+            <router-link
+              to="/admin/admins"
+              v-slot="{ href, route, navigate, isActive }"
+            >
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-xs uppercase py-3 font-bold block hover:text-red-500"
+                :class="[
+                  isActive
+                    ? 'text-green-400'
+                    : 'text-gray-800',
+                ]"
+              >
+                <i
+                  class="fas fa-user-tie mr-2 text-sm"
+                ></i>
+                Admins
+              </a>
+            </router-link>
+          </li>
+
+          <li class="items-center">
+            <router-link
+              to="/admin/managers"
+              v-slot="{ href, route, navigate, isActive }"
+            >
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-xs uppercase py-3 font-bold block hover:text-red-500"
+                :class="[
+                  isActive
+                    ? 'text-green-400'
+                    : 'text-gray-800',
+                ]"
+              >
+                <i
+                  class="fas fa-user-cog mr-2 text-sm"
+                ></i>
+                Provider Managers
+              </a>
+            </router-link>
+          </li>
+
+          <li class="items-center">
+            <router-link
+              to="/admin/users"
+              v-slot="{ href, route, navigate, isActive }"
+            >
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-xs uppercase py-3 font-bold block hover:text-red-500"
+                :class="[
+                  isActive
+                    ? 'text-green-400'
+                    : 'text-gray-800',
+                ]"
+              >
+                <i
+                  class="fas fa-users mr-2 text-sm"
+                ></i>
+                Users
+              </a>
+            </router-link>
+          </li>
+        </ul>
+        
+        <!-- Divider -->
+        <hr class="my-4 md:min-w-full" />
+
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
           <li class="items-center">
             <a
@@ -168,7 +256,7 @@ export default {
         .then(() => {
           this.$router.push("/login");
         });
-    }
+    },
   },
   computed: {
     ...mapState({

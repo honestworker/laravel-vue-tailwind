@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,8 @@ use App\Http\Controllers\Api\AuthController;
 
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
+
+Route::get('/users', [UserController::class, 'index']);
 
 Route::middleware('auth:api')->group( function () {
     Route::get('/auth/user', [AuthController::class, 'user']);

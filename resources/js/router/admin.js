@@ -4,8 +4,10 @@ import Admin from "../views/layouts/Admin.vue";
 // views for Admin layout
 import Dashboard from "../views/admin/Dashboard.vue";
 import Settings from "../views/admin/Settings.vue";
-import Tables from "../views/admin/Tables.vue";
-import Maps from "../views/admin/Maps.vue";
+import SuperAdmins from "../views/admin/SuperAdmins.vue";
+import Admins from "../views/admin/Admins.vue";
+import ProviderManagers from "../views/admin/ProviderManagers.vue";
+import Users from "../views/admin/Users.vue";
 
 export default [
   {
@@ -24,13 +26,23 @@ export default [
         meta: { requiresAuth: true, guardAdmin: true },
       },
       {
-        path: "/admin/tables",
-        component: Tables,
+        path: "/admin/admins",
+        component: Admins,
         meta: { requiresAuth: true, guardAdmin: true },
       },
       {
-        path: "/admin/maps",
-        component: Maps,
+        path: "/admin/super-admins",
+        component: SuperAdmins,
+        meta: { requiresAuth: true, guardAdmin: true },
+      },
+      {
+        path: "/admin/provider-managers",
+        component: ProviderManagers,
+        meta: { requiresAuth: true, guardAdmin: true },
+      },
+      {
+        path: "/admin/users",
+        component: Users,
         meta: { requiresAuth: true, guardAdmin: true },
       },
     ],

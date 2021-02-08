@@ -16,11 +16,7 @@ public/hot
 public_html/storage
 public_html/hot
 
-public_html/css
-public_html/images
-public_html/js
-public_html/vendor
-public_html/webfonts
+public/css
 
 storage/*.key
 .env

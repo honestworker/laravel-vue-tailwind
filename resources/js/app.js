@@ -11,7 +11,8 @@ window.axios = require('axios');
 
 import App from "./App.vue";
 import VueRouter from 'vue-router';
-import Vuelidate from 'vuelidate'
+import Vuelidate from 'vuelidate';
+import DataTable from 'laravel-vue-datatable';
 import store from './store';
 import router from './router';
 
@@ -21,7 +22,7 @@ import ErrorFilter from "./common/error.filter";
 
 // mouting point for the whole app
 window.axios.defaults.withCredentials = true
-window.axios.defaults.baseURL = 'http://localhost/';
+window.axios.defaults.baseURL = 'http://testing.enrol.co.uk/';
 
 Vue.config.productionTip = false;
 Vue.filter("date", DateFilter);
@@ -31,6 +32,7 @@ ApiService.init();
 
 Vue.use(VueRouter);
 Vue.use(Vuelidate);
+Vue.use(DataTable);
 
 /**
  * The following block of code may be used to automatically register your

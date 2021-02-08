@@ -46,16 +46,17 @@
       </a>
       <div class="h-0 my-2 border border-solid border-gray-200" />
       <a
-        href="javascript:void(0);"
-        class="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-gray-800"
+        @click="handleLogout"
+        class="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-gray-800 hover:text-red-500 cursor-pointer"
       >
-        Seprated link
+        Logout
       </a>
     </div>
   </div>
 </template>
 
 <script>
+import { LOGOUT } from "../../../store/actions.type";
 import { createPopper } from "@popperjs/core";
 
 import image from "../../../assets/img/team-1-800x800.jpg";
@@ -79,6 +80,13 @@ export default {
         });
       }
     },
+    handleLogout() {
+      this.$store
+        .dispatch(LOGOUT)
+        .then(() => {
+          this.$router.push("/login");
+        });
+    }
   },
 };
 </script>

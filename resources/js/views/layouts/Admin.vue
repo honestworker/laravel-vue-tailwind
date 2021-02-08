@@ -3,8 +3,7 @@
     <admin-sidebar />
     <div class="relative md:ml-64 bg-gray-200">
       <admin-navbar />
-      <header-stats />
-      <div class="px-4 md:px-10 mx-auto w-full -m-24">
+      <div class="px-4 md:px-10 mx-auto w-full">
         <router-view />
         <footer-admin />
       </div>
@@ -15,14 +14,12 @@
 <script>
 import AdminNavbar from "../components/Navbars/AdminNavbar.vue";
 import AdminSidebar from "../components/Sidebar/AdminSidebar.vue";
-import HeaderStats from "../components/Headers/HeaderStats.vue";
 import FooterAdmin from "../components/Footers/FooterAdmin.vue";
 export default {
   name: "admin-layout",
   components: {
     AdminNavbar,
     AdminSidebar,
-    HeaderStats,
     FooterAdmin,
   },
 };
