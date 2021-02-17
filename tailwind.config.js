@@ -10,7 +10,7 @@ module.exports = {
       './resources/**/*.blade.php',
       './resources/**/*.js',
       './resources/**/*.vue',
-      './resources/**/*.vue',
+      './resources/**/*.scss',
     ],
     options: {
       whitelist: [],
@@ -26,6 +26,7 @@ module.exports = {
     colors: {
       white: '#FFFFFF',
       gray: {
+        200: '#E2E8F0',
         300: '#C3C3C3',
         800: '#202121'
       },

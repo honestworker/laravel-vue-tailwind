@@ -118,29 +118,6 @@
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
           <li class="items-center">
             <router-link
-              to="/admin/super-admins"
-              v-slot="{ href, route, navigate, isActive }"
-            >
-              <a
-                :href="href"
-                @click="navigate"
-                class="text-xs uppercase py-3 font-bold block hover:text-red-500"
-                :class="[
-                  isActive
-                    ? 'text-green-400'
-                    : 'text-gray-800',
-                ]"
-              >
-                <i
-                  class="fas fa-user-secret mr-2 text-sm"
-                ></i>
-                Super Admins
-              </a>
-            </router-link>
-          </li>
-
-          <li class="items-center">
-            <router-link
               to="/admin/admins"
               v-slot="{ href, route, navigate, isActive }"
             >
@@ -155,7 +132,7 @@
                 ]"
               >
                 <i
-                  class="fas fa-user-tie mr-2 text-sm"
+                  class="fas fa-user-secret mr-2 text-sm"
                 ></i>
                 Admins
               </a>
